@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react'
 import './BeforeAfter.css'
+import cleanCar from '../../assets/images/_DSC9932-2.jpg'
+import dirtyCar from '../../assets/images/Gemini_Generated_Image_dii0ncdii0ncdii0.jpg'
 
 function BeforeAfter() {
   const [sliderPosition, setSliderPosition] = useState(50)
@@ -63,7 +65,7 @@ function BeforeAfter() {
       >
         <div className="image-container after-image">
           <img 
-            src="/src/assets/images/_DSC9932-2.jpg" 
+            src={cleanCar}
             alt="After detailing"
             draggable="false"
           />
@@ -74,7 +76,7 @@ function BeforeAfter() {
           style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
           <img 
-            src="/src/assets/images/Gemini_Generated_Image_dii0ncdii0ncdii0.jpg" 
+            src={dirtyCar}
             alt="Before detailing"
             draggable="false"
           />
