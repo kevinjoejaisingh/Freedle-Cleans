@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import './BeforeAfter.css'
-import cleanCar from '../../assets/images/_DSC9932-2.jpg'
-import dirtyCar from '../../assets/images/Gemini_Generated_Image_dii0ncdii0ncdii0.jpg'
+import cleanCar from '../assets/images/_DSC9932-2.jpg'
+import dirtyCar from '../assets/images/Gemini_Generated_Image_dii0ncdii0ncdii0.jpg'
 
 function BeforeAfter() {
   const [sliderPosition, setSliderPosition] = useState(50)
