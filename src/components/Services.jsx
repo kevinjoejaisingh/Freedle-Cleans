@@ -1,39 +1,46 @@
 import { useState } from 'react'
 import './Services.css'
+import exteriorImg from '../assets/images/_DSC8088.jpg'
+import interiorImg from '../assets/images/_DSC0957.jpg'
+import ceramicImg from '../assets/images/_DSC9834.jpg'
 
 const servicesData = [
   {
     id: 1,
-    title: "EXTERIOR WASH",
+    title: "EXTERIOR DETAIL",
     price: "Starting at $149",
     tier: 1,
     icon: "🚿",
-    image: "/src/assets/images/_DSC8088.jpg",  // ← Changed
-    description: "Premium hand wash for your vehicle's exterior. We use pH-balanced soaps, microfiber mitts, and a meticulous two-bucket method to safely remove dirt and grime without scratching your paint.",
+    image: exteriorImg,
+    description: "Deep tire, rim, and fender wash with pre-wash, contact wash, and gloss sealant finish. Your vehicle's exterior will shine like new with our meticulous hand-washing process and premium products.",
     includes: [
-      "Hand wash with premium soap",
-      "Wheel & tire cleaning",
+      "Deep tire & rim cleaning",
+      "Fender wash",
+      "Pre-wash treatment",
+      "Contact wash with premium soap",
+      "Gloss sealant finish",
       "Exterior glass cleaning",
-      "Drying with microfiber towels",
       "Tire shine application"
     ],
-    time: "1-2 hours"
+    time: "2-3 hours"
   },
   {
     id: 2,
-    title: "FULL INTERIOR & EXTERIOR",
-    price: "Starting at $299",
+    title: "INTERIOR DETAIL",
+    price: "Starting at $199",
     tier: 2,
     icon: "✨",
-    image: "/src/assets/images/_DSC0957.jpg",  // ← Changed
-    description: "Our comprehensive detailing service transforms your vehicle inside and out. Every surface is meticulously cleaned, conditioned, and protected.",
+    image: interiorImg,
+    description: "Complete interior transformation including vacuuming, steam/spot treatment, thorough wipe-down of all surfaces, mats cleaned, door jambs, and streak-free glass. Leaves your car UV protected and smelling new.",
     includes: [
-      "Everything in Exterior Wash",
       "Full interior vacuum",
-      "Dashboard & console cleaning",
-      "Leather conditioning",
-      "Interior glass cleaning",
-      "Door jamb cleaning"
+      "Steam & spot treatment",
+      "All surfaces wiped down",
+      "Floor mats cleaned",
+      "Door jambs detailed",
+      "Streak-free glass cleaning",
+      "UV protection applied",
+      "Fresh scent finish"
     ],
     time: "3-4 hours"
   },
@@ -43,26 +50,58 @@ const servicesData = [
     price: "Starting at $899",
     tier: 3,
     icon: "💎",
-    image: "/src/assets/images/_DSC9834.jpg",  // ← Changed (Ferrari golden hour)
-    description: "The ultimate protection for your vehicle. Our professional-grade ceramic coating creates a hydrophobic barrier that lasts years, not months.",
+    image: ceramicImg,
+    description: "The ultimate protection for your vehicle. Full decontamination and gloss polish sealed with a professional-grade 3-4 year ceramic coating for unmatched shine and protection against the elements.",
     includes: [
-      "Everything in Full Detail",
+      "Full exterior detail",
       "Paint decontamination",
-      "Single-stage paint correction",
+      "Gloss polish",
       "Professional ceramic coating application",
-      "3-5 year protection guarantee"
+      "3-4 year protection guarantee",
+      "Hydrophobic finish",
+      "UV & chemical resistance"
     ],
-    time: "6-8 hours (multi-day process)"
+    time: "1-2 days"
   }
 ]
 
-
 const addonsData = [
-  { id: 1, name: "Add-on #1", price: 49, description: "Additional service option" },
-  { id: 2, name: "Add-on #2", price: 79, description: "Additional service option" },
-  { id: 3, name: "Add-on #3", price: 99, description: "Additional service option" },
-  { id: 4, name: "Add-on #4", price: 129, description: "Additional service option" },
-  { id: 5, name: "Add-on #5", price: 149, description: "Additional service option" }
+  { 
+    id: 1, 
+    name: "Headlight Restoration", 
+    price: 79, 
+    description: "Restore cloudy, yellowed headlights to crystal clear for improved visibility and appearance."
+  },
+  { 
+    id: 2, 
+    name: "Clay Bar Treatment", 
+    price: 99, 
+    description: "Removes embedded contaminants from your paint that washing can't reach, leaving the surface ultra-smooth and ready for protection."
+  },
+  { 
+    id: 3, 
+    name: "Seat & Carpet Shampoo", 
+    price: 49, 
+    description: "Deep cleans fabric seats and carpets to lift dirt, spills, and odors for a fresh, renewed interior feel."
+  },
+  { 
+    id: 4, 
+    name: "Stain Removal", 
+    price: 49, 
+    description: "Targets tough interior or exterior stains using specialized cleaners to safely restore the surface's original look."
+  },
+  { 
+    id: 5, 
+    name: "Trim Restoration", 
+    price: 39, 
+    description: "Revives faded plastic and rubber trim, bringing back a rich, dark finish and protecting against UV damage."
+  },
+  { 
+    id: 6, 
+    name: "Leather Conditioner", 
+    price: 45, 
+    description: "Cleans and nourishes leather surfaces, restoring softness and preventing cracking or fading."
+  }
 ]
 
 function Services() {
@@ -95,10 +134,13 @@ function Services() {
     return servicePrice + addonsPrice
   }
 
+  const handleBooking = () => {
+    window.open('https://calendly.com/freedle-clean', '_blank')
+  }
+
   return (
     <>
       <section className="services">
-
         {servicesData.map(service => (
           <div key={service.id} className="service-accordion">
             <div
@@ -196,8 +238,8 @@ function Services() {
               <span>Total Estimate:</span>
               <span>${calculateTotal()}</span>
             </div>
-            <button className="checkout-btn">
-              CONTINUE TO BOOKING
+            <button className="checkout-btn" onClick={handleBooking}>
+              BOOK NOW ON CALENDLY
             </button>
           </div>
         )}
