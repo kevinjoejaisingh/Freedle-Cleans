@@ -76,31 +76,31 @@ const addonsData = [
     id: 2, 
     name: "Clay Bar Treatment", 
     price: 99, 
-    description: "Removes embedded contaminants from your paint that washing can't reach, leaving the surface ultra-smooth and ready for protection."
+    description: "Removes embedded contaminants from your paint that washing can't reach, leaving the surface ultra-smooth."
   },
   { 
     id: 3, 
     name: "Seat & Carpet Shampoo", 
     price: 49, 
-    description: "Deep cleans fabric seats and carpets to lift dirt, spills, and odors for a fresh, renewed interior feel."
+    description: "Deep cleans fabric seats and carpets to lift dirt, spills, and odors for a fresh, renewed interior."
   },
   { 
     id: 4, 
     name: "Stain Removal", 
     price: 49, 
-    description: "Targets tough interior or exterior stains using specialized cleaners to safely restore the surface's original look."
+    description: "Targets tough interior or exterior stains using specialized cleaners to restore the surface."
   },
   { 
     id: 5, 
     name: "Trim Restoration", 
     price: 39, 
-    description: "Revives faded plastic and rubber trim, bringing back a rich, dark finish and protecting against UV damage."
+    description: "Revives faded plastic and rubber trim, bringing back a rich, dark finish."
   },
   { 
     id: 6, 
     name: "Leather Conditioner", 
     price: 45, 
-    description: "Cleans and nourishes leather surfaces, restoring softness and preventing cracking or fading."
+    description: "Cleans and nourishes leather surfaces, restoring softness and preventing cracking."
   }
 ]
 
