@@ -114,10 +114,10 @@ function Services() {
   }
 
   const selectService = (service) => {
-    setSelectedService(service)
-    setTimeout(() => {
-      document.querySelector('.addons')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+  setSelectedService(service)
+  setTimeout(() => {
+    document.querySelector('.addons')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, 100)
   }
 
   const toggleAddon = (addon) => {
@@ -135,9 +135,16 @@ function Services() {
   }
 
   const handleBooking = () => {
-    window.open('https://calendly.com/freedle-clean', '_blank')
+  // Use the selected service's calendly link
+  const calendlyLinks = {
+  1: 'https://calendly.com/freedle-clean/exterior-detail',
+  2: 'https://calendly.com/freedle-clean/interior-detail',
+  3: 'https://calendly.com/freedle-clean/ceramic-coating'
+}
+  
+  const link = selectedService ? calendlyLinks[selectedService.id] : 'https://calendly.com/freedle-clean'
+  window.open(link, '_blank')
   }
-
   return (
     <>
       <section className="services">
