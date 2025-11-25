@@ -15,6 +15,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
+  position: relative;
 }
 
 .logo {
@@ -23,6 +24,7 @@
   gap: 1rem;
   text-decoration: none;
   cursor: pointer;
+  z-index: 1001;
 }
 
 .logo-image {
@@ -41,6 +43,7 @@
   display: flex;
   gap: 3rem;
   list-style: none;
+  align-items: center;
 }
 
 .nav-links a {
@@ -71,8 +74,115 @@
   box-shadow: 0 8px 20px rgba(182, 142, 64, 0.3);
 }
 
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 30px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 10px;
+  transition: all 0.3s;
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.mobile-book-btn {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
-  .nav-links {
+  .nav {
+    padding: 1rem 1.5rem;
+  }
+
+  .logo-text {
+    font-size: 1.2rem;
+  }
+
+  .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .desktop-only {
     display: none;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70%;
+    max-width: 300px;
+    background: rgba(0, 0, 0, 0.98);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    transition: right 0.3s ease-in-out;
+    border-left: 1px solid rgba(182, 142, 64, 0.2);
+  }
+
+  .nav-links.mobile-open {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .mobile-book-btn {
+    display: block;
+    width: 100%;
+  }
+
+  .mobile-book-btn .book-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    width: 80%;
   }
 }
