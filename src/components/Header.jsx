@@ -4,56 +4,43 @@ import './Header.css'
 import logo from '../assets/images/logo.png'
 
 function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleBooking = () => {
     window.open('https://calendly.com/freedle-clean', '_blank')
-  }
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen)
-  }
-
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false)
+    setIsOpen(false)
   }
 
   return (
-    <header className="header">
-      <nav className="nav">
-        <Link to="/" className="logo" onClick={closeMobileMenu}>
-          <img src={logo} alt="Freedle Cleans Logo" className="logo-image" />
-          <div className="logo-text">FREEDLE CLEANS</div>
-        </Link>
+    <>
+      <header className="header">
+        <nav className="nav">
+          <Link to="/" className="logo">
+            <img src={logo} alt="Freedle Cleans Logo" className="logo-image" />
+            <div className="logo-text">FREEDLE CLEANS</div>
+          </Link>
 
-        {/* Hamburger Menu Button */}
-        <button 
-          className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+          <button 
+            className="hamburger"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
 
-        {/* Navigation Links */}
-        <ul className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-          <li><Link to="/" onClick={closeMobileMenu}>Home</Link></li>
-          <li><Link to="/services" onClick={closeMobileMenu}>Services</Link></li>
-          <li><Link to="/reviews" onClick={closeMobileMenu}>Reviews</Link></li>
-          <li><Link to="/about" onClick={closeMobileMenu}>About Us</Link></li>
-          <li className="mobile-book-btn">
-            <button className="book-btn" onClick={() => { handleBooking(); closeMobileMenu(); }}>
-              Book Now
-            </button>
-          </li>
-        </ul>
+          <div className={`nav-menu ${isOpen ? 'active' : ''}`}>
+            <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
+            <Link to="/services" onClick={() => setIsOpen(false)}>Services</Link>
+            <Link to="/reviews" onClick={() => setIsOpen(false)}>Reviews</Link>
+            <Link to="/about" onClick={() => setIsOpen(false)}>About Us</Link>
+            <button className="book-btn" onClick={handleBooking}>Book Now</button>
+          </div>
+        </nav>
+      </header>
 
-        {/* Desktop Book Button */}
-        <button className="book-btn desktop-only" onClick={handleBooking}>Book Now</button>
-      </nav>
-    </header>
+      {isOpen && <div className="overlay" onClick={() => setIsOpen(false)}></div>}
+    </>
   )
 }
 

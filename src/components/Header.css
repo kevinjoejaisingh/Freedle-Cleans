@@ -15,7 +15,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
-  position: relative;
 }
 
 .logo {
@@ -23,7 +22,6 @@
   align-items: center;
   gap: 1rem;
   text-decoration: none;
-  cursor: pointer;
   z-index: 1001;
 }
 
@@ -39,22 +37,20 @@
   color: var(--gold);
 }
 
-.nav-links {
+.nav-menu {
   display: flex;
-  gap: 3rem;
-  list-style: none;
   align-items: center;
+  gap: 3rem;
 }
 
-.nav-links a {
+.nav-menu a {
   color: var(--white);
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.3s;
-  cursor: pointer;
 }
 
-.nav-links a:hover {
+.nav-menu a:hover {
   color: var(--gold);
 }
 
@@ -66,7 +62,7 @@
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s;
 }
 
 .book-btn:hover {
@@ -74,47 +70,32 @@
   box-shadow: 0 8px 20px rgba(182, 142, 64, 0.3);
 }
 
-/* Hamburger Menu */
 .hamburger {
   display: none;
   flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 25px;
-  background: transparent;
+  gap: 5px;
+  background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
   z-index: 1001;
+  padding: 0;
 }
 
 .hamburger span {
-  width: 30px;
+  width: 25px;
   height: 3px;
   background: var(--gold);
-  border-radius: 10px;
-  transition: all 0.3s;
-  transform-origin: center;
+  border-radius: 3px;
 }
 
-.hamburger.open span:nth-child(1) {
-  transform: rotate(45deg) translate(7px, 7px);
-}
-
-.hamburger.open span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
-}
-
-.mobile-book-btn {
-  display: none;
-}
-
-.desktop-only {
-  display: block;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
 }
 
 /* Mobile Styles */
@@ -136,14 +117,10 @@
     display: flex;
   }
 
-  .desktop-only {
-    display: none;
-  }
-
-  .nav-links {
+  .nav-menu {
     position: fixed;
-    top: 0;
     right: -100%;
+    top: 0;
     height: 100vh;
     width: 70%;
     max-width: 300px;
@@ -153,27 +130,23 @@
     gap: 2rem;
     padding: 2rem;
     transition: right 0.3s ease-in-out;
-    border-left: 1px solid rgba(182, 142, 64, 0.2);
+    border-left: 1px solid var(--gold);
+    z-index: 1000;
   }
 
-  .nav-links.mobile-open {
+  .nav-menu.active {
     right: 0;
   }
 
-  .nav-links a {
+  .nav-menu a {
     font-size: 1.5rem;
     text-align: center;
   }
 
-  .mobile-book-btn {
-    display: block;
+  .nav-menu .book-btn {
     width: 100%;
-  }
-
-  .mobile-book-btn .book-btn {
-    width: 100%;
+    max-width: 200px;
     padding: 1rem 2rem;
-    font-size: 1.2rem;
   }
 }
 
@@ -182,7 +155,7 @@
     font-size: 1rem;
   }
 
-  .nav-links {
+  .nav-menu {
     width: 80%;
   }
 }
