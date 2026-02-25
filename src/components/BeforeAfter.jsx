@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react'
 import './BeforeAfter.css'
-import cleanCar from '../assets/images/_DSC9932-2.jpg'
-import dirtyCar from '../assets/images/Gemini_Generated_Image_dii0ncdii0ncdii0.jpg'
+import cleanCarDefault from '../assets/images/_DSC9932-2.jpg'
+import dirtyCarDefault from '../assets/images/Gemini_Generated_Image_dii0ncdii0ncdii0.jpg'
 
-function BeforeAfter() {
+function BeforeAfter({ beforeImage, afterImage }) {
+  const cleanCar = afterImage || cleanCarDefault
+  const dirtyCar = beforeImage || dirtyCarDefault
   const [sliderPosition, setSliderPosition] = useState(50)
   const containerRef = useRef(null)
   const isDraggingRef = useRef(false)

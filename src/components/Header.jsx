@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 import logo from '../assets/images/logo.png'
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleBooking = () => {
-    window.open('https://calendly.com/freedle-clean', '_blank')
+    navigate('/services')
     setIsOpen(false)
   }
 

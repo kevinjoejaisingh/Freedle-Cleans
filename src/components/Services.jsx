@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import BookingModal from './BookingModal'
 import './Services.css'
 import exteriorImg from '../assets/images/_DSC8088.jpg'
 import interiorImg from '../assets/images/_DSC0957.jpg'
 import ceramicImg from '../assets/images/_DSC9834.jpg'
 
-const servicesData = [
+export const defaultServicesData = [
   {
     id: 1,
     title: "EXTERIOR DETAIL",
@@ -65,7 +66,7 @@ const servicesData = [
   }
 ]
 
-const addonsData = [
+export const defaultAddonsData = [
   { 
     id: 1, 
     name: "Headlight Restoration", 
@@ -104,10 +105,13 @@ const addonsData = [
   }
 ]
 
-function Services() {
+function Services({ servicesData: servicesDataProp, addonsData: addonsDataProp }) {
+  const servicesData = servicesDataProp || defaultServicesData
+  const addonsData = addonsDataProp || defaultAddonsData
   const [expandedService, setExpandedService] = useState(null)
   const [selectedService, setSelectedService] = useState(null)
   const [selectedAddons, setSelectedAddons] = useState([])
+  const [showBookingModal, setShowBookingModal] = useState(false)
 
   const toggleService = (id) => {
     setExpandedService(expandedService === id ? null : id)
@@ -129,21 +133,15 @@ function Services() {
   }
 
   const calculateTotal = () => {
-    const servicePrice = selectedService ? parseInt(selectedService.price.match(/\d+/)[0]) : 0
+    const servicePrice = selectedService
+      ? (selectedService.priceValue || parseInt(selectedService.price.match(/\d+/)?.[0] || '0'))
+      : 0
     const addonsPrice = selectedAddons.reduce((sum, addon) => sum + addon.price, 0)
     return servicePrice + addonsPrice
   }
 
   const handleBooking = () => {
-  // Use the selected service's calendly link
-  const calendlyLinks = {
-  1: 'https://calendly.com/freedle-clean/exterior-detail',
-  2: 'https://calendly.com/freedle-clean/interior-detail',
-  3: 'https://calendly.com/freedle-clean/ceramic-coating'
-}
-  
-  const link = selectedService ? calendlyLinks[selectedService.id] : 'https://calendly.com/freedle-clean'
-  window.open(link, '_blank')
+    setShowBookingModal(true)
   }
   return (
     <>
@@ -177,7 +175,7 @@ function Services() {
             </div>
 
             <div className={`service-content ${expandedService === service.id ? 'expanded' : ''}`}>
-              <img src={service.image} alt={service.title} className="service-image" />
+              <img src={service.imageUrl || service.image} alt={service.title} className="service-image" />
               <p className="service-description">{service.description}</p>
 
               <div className="service-includes">
@@ -246,11 +244,19 @@ function Services() {
               <span>${calculateTotal()}</span>
             </div>
             <button className="checkout-btn" onClick={handleBooking}>
-              BOOK NOW ON CALENDLY
+              BOOK NOW
             </button>
           </div>
         )}
       </section>
+
+      <BookingModal
+        isOpen={showBookingModal}
+        onClose={() => setShowBookingModal(false)}
+        selectedService={selectedService}
+        selectedAddons={selectedAddons}
+        totalEstimate={calculateTotal()}
+      />
     </>
   )
 }
