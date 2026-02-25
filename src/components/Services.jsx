@@ -153,7 +153,11 @@ function Services({ servicesData: servicesDataProp, addonsData: addonsDataProp }
               onClick={() => toggleService(service.id)}
             >
               <div className="service-header-left">
-                <div className="service-icon">{service.icon}</div>
+                <div className="service-icon">
+                  {service.iconUrl
+                    ? <img src={service.iconUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                    : service.icon}
+                </div>
                 <div className="service-title-price">
                   <div className="service-title">{service.title}</div>
                   <div className="service-price">{service.price}</div>

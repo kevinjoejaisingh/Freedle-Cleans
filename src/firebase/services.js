@@ -92,10 +92,35 @@ export async function deleteReview(id) {
 }
 
 // ---- Image Upload ----
-export async function uploadImage(file, folder) {
+function downscaleImage(file, maxSize) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => {
+      let { width, height } = img
+      if (width <= maxSize && height <= maxSize) {
+        resolve(file)
+        return
+      }
+      const scale = maxSize / Math.max(width, height)
+      width = Math.round(width * scale)
+      height = Math.round(height * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height)
+      canvas.toBlob((blob) => {
+        resolve(new File([blob], file.name, { type: 'image/jpeg' }))
+      }, 'image/jpeg', 0.85)
+    }
+    img.src = URL.createObjectURL(file)
+  })
+}
+
+export async function uploadImage(file, folder, maxSize = 1200) {
+  const resized = await downscaleImage(file, maxSize)
   const fileName = `${Date.now()}_${file.name}`
   const storageRef = ref(storage, `${folder}/${fileName}`)
-  const snapshot = await uploadBytes(storageRef, file)
+  const snapshot = await uploadBytes(storageRef, resized)
   return getDownloadURL(snapshot.ref)
 }
 

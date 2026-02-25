@@ -8,7 +8,7 @@ const emptyService = {
   price: '',
   priceValue: 0,
   tier: 1,
-  icon: '',
+  iconUrl: '',
   imageUrl: '',
   description: '',
   includes: [''],
@@ -98,6 +98,15 @@ function AdminServices() {
     }
   }
 
+  const handleIconUpload = async (file, service, setService) => {
+    try {
+      const url = await uploadImage(file, 'service-icons', 200)
+      setService({ ...service, iconUrl: url })
+    } catch (err) {
+      showMessage('Failed to upload icon', 'error')
+    }
+  }
+
   // --- Addon handlers ---
   const handleSaveAddon = async (addon) => {
     try {
@@ -153,16 +162,24 @@ function AdminServices() {
                 onSave={handleSaveService}
                 onCancel={() => setEditingService(null)}
                 onImageUpload={handleServiceImageUpload}
+                onIconUpload={handleIconUpload}
                 saving={saving}
               />
             ) : (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  {service.iconUrl ? (
+                    <img src={service.iconUrl} alt="" style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
+                  ) : service.icon ? (
+                    <span style={{ fontSize: '1.5rem' }}>{service.icon}</span>
+                  ) : null}
+                  <div>
                   <div style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '1.1rem' }}>
-                    {service.icon} {service.title}
+                    {service.title}
                   </div>
                   <div style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.25rem' }}>
                     {service.price} &middot; {service.time}
+                  </div>
                   </div>
                 </div>
                 <div className="admin-actions" style={{ marginTop: 0 }}>
@@ -181,6 +198,7 @@ function AdminServices() {
               onSave={handleSaveService}
               onCancel={() => setEditingService(null)}
               onImageUpload={handleServiceImageUpload}
+              onIconUpload={handleIconUpload}
               saving={saving}
             />
           </div>
@@ -238,7 +256,7 @@ function AdminServices() {
   )
 }
 
-function ServiceForm({ initial, onSave, onCancel, onImageUpload, saving }) {
+function ServiceForm({ initial, onSave, onCancel, onImageUpload, onIconUpload, saving }) {
   const [form, setForm] = useState({ ...initial })
 
   const update = (field, value) => setForm(prev => ({ ...prev, [field]: value }))
@@ -275,8 +293,13 @@ function ServiceForm({ initial, onSave, onCancel, onImageUpload, saving }) {
           <input type="number" min="1" max="3" value={form.tier} onChange={e => update('tier', Number(e.target.value))} />
         </div>
         <div className="admin-field">
-          <label>Icon (emoji)</label>
-          <input value={form.icon} onChange={e => update('icon', e.target.value)} />
+          <label>Icon Image</label>
+          <ImageUploader
+            currentUrl={form.iconUrl || null}
+            onUpload={(file) => onIconUpload(file, form, setForm)}
+            onRemove={() => setForm(prev => ({ ...prev, iconUrl: '' }))}
+            label="Service Icon (small)"
+          />
         </div>
         <div className="admin-field">
           <label>Duration</label>
