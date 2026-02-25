@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
+import emailjs from '@emailjs/browser'
 import { getAvailableSlots, getTimeSlotDoc, addBooking, updateTimeSlot } from '../firebase/services'
 import './BookingModal.css'
+
+const EMAILJS_SERVICE_ID = 'service_freedle'
+const EMAILJS_TEMPLATE_ID = 'template_booking'
+const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'
 
 function BookingModal({ isOpen, onClose, selectedService, selectedAddons, totalEstimate }) {
   const [step, setStep] = useState(1)
@@ -98,6 +103,25 @@ function BookingModal({ isOpen, onClose, selectedService, selectedAddons, totalE
 
       const bookingRef = await addBooking(bookingData)
       await updateTimeSlot(selectedSlot.id, { status: 'booked', bookingId: bookingRef.id })
+
+      // Send email notification to owner
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          customer_name: customerInfo.customerName,
+          customer_phone: customerInfo.customerPhone,
+          customer_email: customerInfo.customerEmail,
+          service_name: selectedService.title,
+          date: formatDate(selectedSlot.date),
+          time: `${formatTime(selectedSlot.startTime)}${selectedSlot.endTime ? ' – ' + formatTime(selectedSlot.endTime) : ''}`,
+          vehicle: `${customerInfo.vehicleYear} ${customerInfo.vehicleMake} ${customerInfo.vehicleModel}`,
+          address: customerInfo.address,
+          addons: selectedAddons.length > 0 ? selectedAddons.map(a => `${a.name} (+$${a.price})`).join(', ') : 'None',
+          total: `$${totalEstimate}`,
+        }, EMAILJS_PUBLIC_KEY)
+      } catch (emailErr) {
+        console.warn('Email notification failed:', emailErr)
+      }
+
       setStep(4) // done
     } catch (err) {
       console.error('Booking error:', err)
