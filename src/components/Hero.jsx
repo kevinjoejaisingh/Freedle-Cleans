@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import './Hero.css'
 import BeforeAfter from './BeforeAfter'
 import { useFirestoreData } from '../hooks/useFirestoreData'
@@ -16,6 +17,7 @@ const defaultHomeConfig = {
 }
 
 function Hero() {
+  const navigate = useNavigate()
   const { data } = useFirestoreData(
     () => getSiteConfig('home'),
     defaultHomeConfig
@@ -33,6 +35,7 @@ function Hero() {
           <span key={i}>{line}{i < heading.split('\n').length - 1 && <br/>}</span>
         ))}</h1>
         <p>{subheading}</p>
+        <button className="hero-book-btn" onClick={() => navigate('/services')}>Book Now</button>
       </div>
       <BeforeAfter
         beforeImage={config.beforeAfter?.beforeImage}

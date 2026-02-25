@@ -1,18 +1,12 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import './Header.css'
 import logo from '../assets/images/logo.png'
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate()
   const { user, isAdmin } = useAuth()
-
-  const handleBooking = () => {
-    navigate('/services')
-    setIsOpen(false)
-  }
 
   return (
     <>
@@ -37,7 +31,6 @@ function Header() {
             <Link to="/services" onClick={() => setIsOpen(false)}>Services</Link>
             <Link to="/reviews" onClick={() => setIsOpen(false)}>Reviews</Link>
             <Link to="/about" onClick={() => setIsOpen(false)}>About Us</Link>
-            <button className="book-btn" onClick={handleBooking}>Book Now</button>
             <Link
               to={user && isAdmin ? '/admin' : '/admin/login'}
               className="admin-link"
