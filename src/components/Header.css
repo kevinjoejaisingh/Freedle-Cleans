@@ -70,6 +70,17 @@
   box-shadow: 0 8px 20px rgba(182, 142, 64, 0.3);
 }
 
+.admin-link {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 0.8rem !important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.admin-link:hover {
+  color: var(--gold) !important;
+}
+
 .hamburger {
   display: none;
   flex-direction: column;
