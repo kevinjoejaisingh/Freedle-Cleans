@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { isAdminUser } from '../firebase/services'
 import './AdminLogin.css'
 
 function AdminLogin() {
@@ -9,9 +10,8 @@ function AdminLogin() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const { user, isAdmin, loading, login } = useAuth()
-  const navigate = useNavigate()
 
-  if (loading) return <div className="admin-loading">Loading...</div>
+  if (loading || submitting) return <div className="admin-loading">Loading...</div>
   if (user && isAdmin) return <Navigate to="/admin" replace />
 
   const handleSubmit = async (e) => {
@@ -19,12 +19,18 @@ function AdminLogin() {
     setError('')
     setSubmitting(true)
     try {
-      await login(email, password)
-      navigate('/admin')
+      const cred = await login(email, password)
+      const adminStatus = await isAdminUser(cred.user.uid)
+      if (!adminStatus) {
+        setError('This account is not authorized as an admin. Add the user UID to the adminUsers collection in Firestore.')
+        setSubmitting(false)
+        return
+      }
+      // onAuthStateChanged will pick up the change and redirect via Navigate above
     } catch {
       setError('Invalid email or password')
+      setSubmitting(false)
     }
-    setSubmitting(false)
   }
 
   return (
