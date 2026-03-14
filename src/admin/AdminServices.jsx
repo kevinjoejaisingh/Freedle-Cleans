@@ -59,6 +59,7 @@ function AdminServices() {
       const data = { ...service }
       delete data.id
       data.includes = data.includes.filter(item => item.trim() !== '')
+      data.priceValue = Number(data.priceValue) || 0
 
       if (service.id) {
         await updateService(service.id, data)

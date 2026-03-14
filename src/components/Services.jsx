@@ -10,6 +10,7 @@ export const defaultServicesData = [
     id: 1,
     title: "EXTERIOR DETAIL",
     price: "Starting at $149",
+    priceValue: 149,
     tier: 1,
     icon: "🚿",
     image: exteriorImg,
@@ -29,6 +30,7 @@ export const defaultServicesData = [
     id: 2,
     title: "INTERIOR DETAIL",
     price: "Starting at $199",
+    priceValue: 199,
     tier: 2,
     icon: "✨",
     image: interiorImg,
@@ -49,6 +51,7 @@ export const defaultServicesData = [
     id: 3,
     title: "CERAMIC COATING",
     price: "Starting at $899",
+    priceValue: 899,
     tier: 3,
     icon: "💎",
     image: ceramicImg,
@@ -134,9 +137,9 @@ function Services({ servicesData: servicesDataProp, addonsData: addonsDataProp }
 
   const calculateTotal = () => {
     const servicePrice = selectedService
-      ? (selectedService.priceValue || parseInt(selectedService.price.match(/\d+/)?.[0] || '0'))
+      ? (Number(selectedService.priceValue) || parseInt(selectedService.price.match(/\d+/)?.[0] || '0'))
       : 0
-    const addonsPrice = selectedAddons.reduce((sum, addon) => sum + addon.price, 0)
+    const addonsPrice = selectedAddons.reduce((sum, addon) => sum + Number(addon.price), 0)
     return servicePrice + addonsPrice
   }
 
