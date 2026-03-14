@@ -135,10 +135,12 @@ function Services({ servicesData: servicesDataProp, addonsData: addonsDataProp }
     )
   }
 
+  const getServicePrice = (service) => {
+    return Number(service.priceValue) || parseInt(service.price.match(/\d+/)?.[0] || '0')
+  }
+
   const calculateTotal = () => {
-    const servicePrice = selectedService
-      ? (Number(selectedService.priceValue) || parseInt(selectedService.price.match(/\d+/)?.[0] || '0'))
-      : 0
+    const servicePrice = selectedService ? getServicePrice(selectedService) : 0
     const addonsPrice = selectedAddons.reduce((sum, addon) => sum + Number(addon.price), 0)
     return servicePrice + addonsPrice
   }
@@ -238,7 +240,7 @@ function Services({ servicesData: servicesDataProp, addonsData: addonsDataProp }
             </div>
             <div className="total-row">
               <span>Base Price:</span>
-              <span>{selectedService.price}</span>
+              <span>${getServicePrice(selectedService)}</span>
             </div>
             {selectedAddons.map(addon => (
               <div key={addon.id} className="total-row">
