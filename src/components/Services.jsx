@@ -136,7 +136,7 @@ function Services({ servicesData: servicesDataProp, addonsData: addonsDataProp }
   }
 
   const getServicePrice = (service) => {
-    return Number(service.priceValue) || parseInt(service.price.match(/\d+/)?.[0] || '0')
+    return parseInt(service.price.replace(/[^0-9]/g, '') || '0')
   }
 
   const calculateTotal = () => {

@@ -95,7 +95,7 @@ function BookingModal({ isOpen, onClose, selectedService, selectedAddons, totalE
         startTime: selectedSlot.startTime,
         endTime: selectedSlot.endTime || null,
         serviceName: selectedService.title,
-        servicePrice: Number(selectedService.priceValue) || parseInt(selectedService.price.match(/\d+/)?.[0] || '0'),
+        servicePrice: parseInt(selectedService.price.replace(/[^0-9]/g, '') || '0'),
         addons: selectedAddons.map(a => ({ name: a.name, price: a.price })),
         totalEstimate,
         ...customerInfo
