@@ -3,9 +3,13 @@ import emailjs from '@emailjs/browser'
 import { getAvailableSlots, getTimeSlotDoc, addBooking, updateTimeSlot } from '../firebase/services'
 import './BookingModal.css'
 
-const EMAILJS_SERVICE_ID = 'service_freedle'
-const EMAILJS_TEMPLATE_ID = 'template_booking'
-const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+if (EMAILJS_PUBLIC_KEY) {
+  emailjs.init(EMAILJS_PUBLIC_KEY)
+}
 
 function BookingModal({ isOpen, onClose, selectedService, selectedAddons, totalEstimate }) {
   const [step, setStep] = useState(1)
@@ -111,15 +115,24 @@ function BookingModal({ isOpen, onClose, selectedService, selectedAddons, totalE
           customer_phone: customerInfo.customerPhone,
           customer_email: customerInfo.customerEmail,
           service_name: selectedService.title,
-          date: formatDate(selectedSlot.date),
-          time: `${formatTime(selectedSlot.startTime)}${selectedSlot.endTime ? ' – ' + formatTime(selectedSlot.endTime) : ''}`,
-          vehicle: `${customerInfo.vehicleYear} ${customerInfo.vehicleMake} ${customerInfo.vehicleModel}`,
-          address: customerInfo.address,
+          booking_date: formatDate(selectedSlot.date),
+          booking_time: `${formatTime(selectedSlot.startTime)}${selectedSlot.endTime ? ' – ' + formatTime(selectedSlot.endTime) : ''}`,
+          customer_address: customerInfo.address,
           addons: selectedAddons.length > 0 ? selectedAddons.map(a => `${a.name} (+$${a.price})`).join(', ') : 'None',
-          total: `$${totalEstimate}`,
-        }, EMAILJS_PUBLIC_KEY)
+          total_price: totalEstimate,
+          notes: `Vehicle: ${customerInfo.vehicleYear} ${customerInfo.vehicleMake} ${customerInfo.vehicleModel}`,
+        })
       } catch (emailErr) {
-        console.warn('Email notification failed:', emailErr)
+        console.error('Email notification failed:', emailErr)
+      }
+
+      // Fire Meta Pixel "Schedule" conversion event
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        window.fbq('track', 'Schedule', {
+          value: totalEstimate,
+          currency: 'USD',
+          content_name: selectedService.title,
+        })
       }
 
       setStep(4) // done
